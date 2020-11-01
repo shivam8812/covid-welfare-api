@@ -4,6 +4,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from .serializers import RegistrationSerializer
 from .models import User
+from rest_framework.authtoken.models import Token
+
 
 class AuthenticationView(ModelViewSet):
     queryset = User.objects.all()
@@ -13,7 +15,8 @@ class AuthenticationView(ModelViewSet):
         serializer = RegistrationSerializer(data = request.data)
         if serializer.is_valid():
             user = serializer.save()
-            return Response({'success':'registered'})
+            token = Token.objects.get(user = user).key
+            return Response({'success':'registered', 'token':token})
         else :
             return Response(serializer.errors)
 
