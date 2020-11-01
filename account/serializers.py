@@ -26,3 +26,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+class DetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'lat', 'lon', 'provide', 'occupation', 'address']
+
+
+class SeekSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['seek_text']
