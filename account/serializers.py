@@ -30,7 +30,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'lat', 'lon', 'provide', 'occupation', 'address']
+        fields = ['lat', 'lon', 'provide', 'occupation', 'address', 'contact', 'blood_group']
 
 
 class SeekSerializer(serializers.ModelSerializer):

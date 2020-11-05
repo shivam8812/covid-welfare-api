@@ -18,5 +18,5 @@ class AuthenticationView(ModelViewSet):
             token = Token.objects.get(user = user).key
             return Response({'success':'registered', 'token':token})
         else :
-            return Response(serializer.errors)
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
