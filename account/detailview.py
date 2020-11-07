@@ -6,6 +6,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import User
 from .serializers import DetailSerializer, SeekSerializer
+from .calcdist import calculatedistance
 
 class DetailView(ModelViewSet):
     queryset = User.objects.all()
@@ -79,7 +80,8 @@ class DetailView(ModelViewSet):
         data = []
         query = User.objects.all()
         for user2 in query:
-            if user2 != user and user2.provide == True and abs(user.lat - user.lat) <= 1.0 and abs(user.lon - user2.lon) <= 1.0:
-                data.append({'username':user2.username, 'lat':user2.lat, 'lon':user2.lon})
+            dist = calculatedistance(user.lat, user.lon, user2.lat, user2.lon)
+            if user2 != user and user2.provide == True and dist <= 4:
+                data.append({'username':user2.username, 'lat':user2.lat, 'lon':user2.lon, 'dist':dist})
 
         return Response({'data':data})
