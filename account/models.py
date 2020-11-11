@@ -52,7 +52,7 @@ class User(AbstractBaseUser):
     provide = models.BooleanField(default = False)
     occupation = models.CharField(max_length=100, blank = True)
     address = models.CharField(max_length=200, blank = True)
-    seek_time = models.DateTimeField(blank = True, auto_now=True, auto_now_add=False)
+    seek_time = models.DateTimeField(blank = True, null = True, auto_now=False, auto_now_add=False)
     blood_group = models.CharField(blank = True, max_length = 3)
     contact = models.CharField(blank = True, max_length = 11)
 
