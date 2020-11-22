@@ -6,7 +6,7 @@ import datetime
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from account.models import User
-from .models import SeekRequest, ConnectedUsers, ProvideRequest
+from .models import SeekRequest, ConnectedUsers, ProvideRequest, Notification
 
 class SeekView(ModelViewSet):
     queryset = SeekRequest.objects.all()
@@ -39,10 +39,16 @@ class SeekView(ModelViewSet):
                 prov = ProvideRequest.objects.get(seeker = user, provider = to_user)
                 self.connect(user, to_user)
                 prov.delete()
+                notify = Notification(user = user, notification = str(to_user.username) + " is connected")
+                notify.save()
+                notify = Notification(user = to_user, notification = str(user.username) + " is connected")
+                notify.save()
                 return Response({'users connected'})
             except ProvideRequest.DoesNotExist:
                 seek_r = SeekRequest(seeker = user, provider = to_user)
                 seek_r.save()
+                notify = Notification(user = to_user, notification = str(user.username) + " has requested your help")
+                notify.save()
                 return Response({'request sent'})
 
 
